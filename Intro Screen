@@ -1,0 +1,84 @@
+
+**************************************************************************************************************
+UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlowLayout 
+
+    @IBOutlet weak var pageController: UIPageControl!
+    
+**************************************************************************************************************
+    let sectionInsetsSlider = UIEdgeInsets(top: 0.0,
+                                           left: 0.0,
+                                           bottom: 0.0,
+                                           right: 0.0)
+    
+    var flowLayoutSlider: UICollectionViewFlowLayout {
+        let _flowLayout = UICollectionViewFlowLayout()
+        
+        let paddingSpace = sectionInsetsSlider.left * (1)
+        let availableWidth = view.frame.width - paddingSpace
+        let widthPerItem = availableWidth / 1
+        
+        DispatchQueue.main.async {
+            _flowLayout.itemSize = CGSize(width: widthPerItem, height: self.collectionViewItrp.frame.size.height)
+            
+            _flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+            _flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+            _flowLayout.minimumInteritemSpacing = 0.0
+            _flowLayout.minimumLineSpacing = 0
+        }
+        
+        return _flowLayout
+    }
+    
+**************************************************************************************************************    
+     collectionViewItrp.delegate = self
+        collectionViewItrp.dataSource = self
+        
+        self.collectionViewItrp.collectionViewLayout = flowLayoutSlider
+        
+ **************************************************************************************************************       
+        
+         @IBAction func clickedSkip(_ sender: Any) {
+        let loginVc = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
+        UserDefaults.standard.set(true, forKey: "isInstrctionFinish")
+        UserDefaults.standard.synchronize()
+        self.navigationController?.pushViewController(loginVc, animated: true)
+    }
+    
+    @IBAction func clickedNExt(_ sender: Any) {
+        
+        let currentPage = pageController.currentPage
+        
+        if currentPage < 3{
+            self.collectionViewItrp.scrollToItem(at: IndexPath.init(item: currentPage+1, section: 0), at: .right, animated: true)
+        }
+        else{
+            let loginVc = self.storyboard?.instantiateViewController(withIdentifier: "WelcomeVC") as! WelcomeVC
+            UserDefaults.standard.set(true, forKey: "isInstrctionFinish")
+            UserDefaults.standard.synchronize()
+            self.navigationController?.pushViewController(loginVc, animated: true)
+        }
+    }
+    
+ **************************************************************************************************************   
+    
+     func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        let currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
+        pageController.currentPage = Int(currentPage)
+        
+        if currentPage == 3
+        {
+            btnNext.setTitle("DONE", for: .normal)
+            imgNext.isHidden = true
+            btnNeextRightCont.constant = 25
+        }
+        else
+        {
+            imgNext.isHidden = false
+            btnNext.setTitle("NEXT", for: .normal)
+            btnNeextRightCont.constant = 30
+        }
+    }
+    
+**************************************************************************************************************    
+    
