@@ -1,0 +1,16 @@
+--> First Add "Tag" in Storyboard for collectionView
+
+func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        
+        if let collectionView = scrollView as? UICollectionView {
+            switch collectionView.tag {
+            case 7:
+                let currentPage = scrollView.contentOffset.x / scrollView.frame.size.width;
+                pagecontroll.currentPage = Int(currentPage)
+            default:
+                print("unknown")
+            }
+        } else{
+            print("cant cast")
+        }
+    }
