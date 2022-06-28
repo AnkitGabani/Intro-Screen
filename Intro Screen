@@ -80,5 +80,29 @@ UICollectionViewDelegate, UICollectionViewDataSource,UICollectionViewDelegateFlo
         }
     }
     
-**************************************************************************************************************    
+**************************************************************************************************************   
+
+
+@IBAction func clickecNext(_ sender: Any)
+    {
+        let visibleItems: NSArray = self.quoteCollectionView.indexPathsForVisibleItems as NSArray
+        let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
+        let nextItem: IndexPath = IndexPath(item: currentItem.item + 1, section: 0)
+        if nextItem.row < arrQuotes.count {
+            self.quoteCollectionView.scrollToItem(at: nextItem, at: .left, animated: true)
+            
+        }
+    }
+    
+    
+    @IBAction func clickedPrevious(_ sender: Any)
+    {
+        let visibleItems: NSArray = self.quoteCollectionView.indexPathsForVisibleItems as NSArray
+        let currentItem: IndexPath = visibleItems.object(at: 0) as! IndexPath
+        let nextItem: IndexPath = IndexPath(item: currentItem.item - 1, section: 0)
+        if nextItem.row < arrQuotes.count && nextItem.row >= 0{
+            self.quoteCollectionView.scrollToItem(at: nextItem, at: .right, animated: true)
+            
+        }
+    }
     
